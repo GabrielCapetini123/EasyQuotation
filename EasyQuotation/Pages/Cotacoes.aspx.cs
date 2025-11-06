@@ -118,18 +118,30 @@ namespace EasyQuotation.Pages
                 gvMenorPreco.DataSource = lista;
                 gvMenorPreco.DataBind();
 
-                if (lista.Count == 0)
+                if (lista == null || lista.Count == 0)
+                {
+                    pnlMenorPrecoHeader.Visible = false;
+                    btnExportarExcel.Visible = false;
                     MostrarToast("Nenhuma cotação encontrada para exibir menor preço.", "warning");
+                }
                 else
+                {
+                    pnlMenorPrecoHeader.Visible = true;
+                    btnExportarExcel.Visible = true;
                     MostrarToast("Consulta realizada com sucesso!", "success");
+                }
             }
             catch (Exception ex)
             {
+                pnlMenorPrecoHeader.Visible = false;
+                btnExportarExcel.Visible = false;
+
                 var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                 logDal.RegistrarLog("btnConsultarMenorPreco_Click - Cotacoes", ex);
                 MostrarToast(ex.Message, "danger");
             }
         }
+
 
         private void CarregarGrid()
         {
@@ -165,5 +177,58 @@ namespace EasyQuotation.Pages
                 ViewState["ToastType"] = null;
             }
         }
+
+        protected void btnExportarExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var lista = _cotacaoBll.ConsultarMenorPrecoPorProduto();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    MostrarToast("Não há dados para exportar.", "warning");
+                    return;
+                }
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment;filename=MenorPrecoPorProduto.xls");
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                System.IO.StringWriter sw = new System.IO.StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+                hw.Write("<table border='1' style='border-collapse:collapse;'>");
+                hw.Write("<tr style='background-color:#0d6efd;color:white;font-weight:bold;'>");
+                hw.Write("<th>Produto</th>");
+                hw.Write("<th>Fornecedor</th>");
+                hw.Write("<th>Menor Valor (R$)</th>");
+                hw.Write("</tr>");
+
+                foreach (var item in lista)
+                {
+                    hw.Write("<tr>");
+                    hw.Write($"<td>{item.ProdutoNome}</td>");
+                    hw.Write($"<td>{item.FornecedorNome}</td>");
+                    hw.Write($"<td style='text-align:right;'>{item.Preco.ToString("C", new System.Globalization.CultureInfo("pt-BR"))}</td>");
+                    hw.Write("</tr>");
+                }
+
+                hw.Write("</table>");
+
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+            }
+            catch (Exception ex)
+            {
+                var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
+                logDal.RegistrarLog("btnExportarExcel_Click - Cotacoes", ex);
+                MostrarToast("Erro ao exportar para Excel: " + ex.Message, "danger");
+            }
+        }
+
     }
 }

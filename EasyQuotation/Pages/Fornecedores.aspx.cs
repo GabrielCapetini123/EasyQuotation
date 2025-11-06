@@ -15,7 +15,6 @@ namespace EasyQuotation.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Instancia a DAL e injeta na BLL usando a interface
             var fornecedorDal = new FornecedorDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
             _bll = new FornecedorBLL(fornecedorDal);
 

@@ -2,6 +2,7 @@
 using EasyQuotation.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace EasyQuotation.DAL
@@ -53,8 +54,23 @@ namespace EasyQuotation.DAL
                 _context.Fornecedores.DeleteOnSubmit(fornecedor);
                 _context.SubmitChanges();
             }
+            catch (SqlException sqlEx)
+            {
+                if (sqlEx.Number == 547 || sqlEx.Message.Contains("REFERENCE") || sqlEx.Message.Contains("FK_"))
+                {
+                    throw new Exception("Não é possível excluir este fornecedor, pois ele está vinculado a uma ou mais cotações.");
+                }
+
+                throw new Exception("Erro ao excluir fornecedor no banco de dados.", sqlEx);
+            }
             catch (Exception ex)
             {
+                if (ex.InnerException is SqlException innerSql &&
+                    (innerSql.Number == 547 || innerSql.Message.Contains("REFERENCE") || innerSql.Message.Contains("FK_")))
+                {
+                    throw new Exception("Não é possível excluir este fornecedor, pois ele está vinculado a uma ou mais cotações.");
+                }
+
                 throw new Exception("Erro ao excluir fornecedor.", ex);
             }
         }
