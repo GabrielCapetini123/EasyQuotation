@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyQuotation", "EasyQuotation\EasyQuotation.csproj", "{0F1B5D79-EFFA-4DC3-800D-47CBC05893B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyQuotation.Tests", "EasyQuotation.Tests\EasyQuotation.Tests.csproj", "{F27EFAE1-328E-4B22-8C2C-D1EF7804C40F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0F1B5D79-EFFA-4DC3-800D-47CBC05893B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F1B5D79-EFFA-4DC3-800D-47CBC05893B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F1B5D79-EFFA-4DC3-800D-47CBC05893B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27EFAE1-328E-4B22-8C2C-D1EF7804C40F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27EFAE1-328E-4B22-8C2C-D1EF7804C40F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27EFAE1-328E-4B22-8C2C-D1EF7804C40F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27EFAE1-328E-4B22-8C2C-D1EF7804C40F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
