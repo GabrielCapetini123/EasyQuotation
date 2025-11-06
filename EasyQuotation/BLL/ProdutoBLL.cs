@@ -7,11 +7,11 @@ namespace EasyQuotation.BLL
 {
     public class ProdutoBLL
     {
-        private readonly ProdutoDAL _dal;
+        private readonly IProdutoDAL _produtoDal;
 
-        public ProdutoBLL(string connectionString)
+        public ProdutoBLL(IProdutoDAL produtoDal)
         {
-            _dal = new ProdutoDAL(connectionString);
+            _produtoDal = produtoDal ?? throw new ArgumentNullException(nameof(produtoDal), "A dependência ProdutoDAL não pode ser nula.");
         }
 
         public void SalvarProduto(Produto produto)
@@ -27,11 +27,11 @@ namespace EasyQuotation.BLL
                 if (produto.Nome.Trim().Length < 3)
                     throw new Exception("O nome do produto deve conter ao menos 3 caracteres.");
 
-                _dal.InserirProduto(produto);
+                _produtoDal.InserirProduto(produto);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString(), ex);
+                throw new Exception("Erro ao salvar produto: " + ex.Message, ex);
             }
         }
 
@@ -39,11 +39,11 @@ namespace EasyQuotation.BLL
         {
             try
             {
-                return _dal.ListarProdutos();
+                return _produtoDal.ListarProdutos();
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao listar os produtos.", ex);
+                throw new Exception("Erro ao listar os produtos: " + ex.Message, ex);
             }
         }
 
@@ -54,11 +54,11 @@ namespace EasyQuotation.BLL
                 if (id <= 0)
                     throw new Exception("ID de produto inválido.");
 
-                _dal.ExcluirProduto(id);
+                _produtoDal.ExcluirProduto(id);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString(), ex);
+                throw new Exception("Erro ao excluir produto: " + ex.Message, ex);
             }
         }
     }

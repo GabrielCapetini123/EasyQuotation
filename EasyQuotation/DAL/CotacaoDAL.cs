@@ -1,4 +1,5 @@
-﻿using EasyQuotation.Models.Data;
+﻿using EasyQuotation.Interfaces;
+using EasyQuotation.Models.Data;
 using EasyQuotation.Models.Entities;
 using EasyQuotation.Models.ViewModels;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace EasyQuotation.DAL
 {
-    public class CotacaoDAL
+    public class CotacaoDAL : ICotacaoDAL
     {
         private readonly EasyQuotationDataContext _context;
 

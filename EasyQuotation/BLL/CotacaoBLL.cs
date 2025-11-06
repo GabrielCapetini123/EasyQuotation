@@ -1,4 +1,4 @@
-﻿using EasyQuotation.DAL;
+﻿using EasyQuotation.Interfaces;
 using EasyQuotation.Models.Entities;
 using EasyQuotation.Models.ViewModels;
 using System;
@@ -8,11 +8,10 @@ namespace EasyQuotation.BLL
 {
     public class CotacaoBLL
     {
-        private readonly CotacaoDAL _dal;
-
-        public CotacaoBLL(string connectionString)
+        private readonly ICotacaoDAL _dal;
+        public CotacaoBLL(ICotacaoDAL cotacaoDal)
         {
-            _dal = new CotacaoDAL(connectionString);
+            _dal = cotacaoDal ?? throw new ArgumentNullException(nameof(cotacaoDal));
         }
 
         public void SalvarCotacao(Cotacao cotacao)

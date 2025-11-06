@@ -18,9 +18,13 @@ namespace EasyQuotation.Pages
         {
             string connectionString = ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString;
 
-            _cotacaoBll = new CotacaoBLL(connectionString);
-            _fornecedorBll = new FornecedorBLL(connectionString);
-            _produtoBll = new ProdutoBLL(connectionString);
+            var cotacaoDal = new CotacaoDAL(connectionString);
+            var fornecedorDal = new FornecedorDAL(connectionString);
+            var produtoDal = new ProdutoDAL(connectionString);
+
+            _cotacaoBll = new CotacaoBLL(cotacaoDal);
+            _fornecedorBll = new FornecedorBLL(fornecedorDal);
+            _produtoBll = new ProdutoBLL(produtoDal);
 
             if (!IsPostBack)
             {

@@ -13,7 +13,10 @@ namespace EasyQuotation.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _bll = new ProdutoBLL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
+            string connectionString = ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString;
+
+            var produtoDal = new ProdutoDAL(connectionString);
+            _bll = new ProdutoBLL(produtoDal);
 
             if (!IsPostBack)
                 CarregarGrid();
@@ -36,12 +39,14 @@ namespace EasyQuotation.Pages
 
                 txtNome.Text = "";
                 CarregarGrid();
+
                 MostrarToast("Produto salvo com sucesso!", "success");
             }
             catch (Exception ex)
             {
                 var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                 logDal.RegistrarLog("btnSalvar_Click - Produtos", ex);
+
                 MostrarToast(ex.Message, "danger");
             }
         }
@@ -77,6 +82,8 @@ namespace EasyQuotation.Pages
             }
             catch (Exception ex)
             {
+                var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
+                logDal.RegistrarLog("CarregarGrid - Produtos", ex);
                 MostrarToast($"Erro ao carregar produtos: {ex.Message}", "danger");
             }
         }

@@ -13,5 +13,7 @@ namespace EasyQuotation.Models.Data
         public Table<Fornecedor> Fornecedores => GetTable<Fornecedor>();
         public Table<Produto> Produtos => GetTable<Produto>();
         public Table<Cotacao> Cotacoes => GetTable<Cotacao>();
+        public Table<Log> Logs => this.GetTable<Log>();
+
     }
 }

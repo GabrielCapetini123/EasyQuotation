@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace EasyQuotation.DAL
 {
-    public class ProdutoDAL
+    public class ProdutoDAL : IProdutoDAL
     {
         private readonly EasyQuotationDataContext _context;
 

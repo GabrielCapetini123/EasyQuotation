@@ -1,49 +1,136 @@
 ﻿<%@ Page Title="Sistema de Cotações de Produtos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="EasyQuotation._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <div class="container text-center mt-5">
-        <h1 class="display-4 mb-4 fw-bold">🧾 Sistema de Cotações de Produtos</h1>
-        <p class="lead text-muted mb-5">
-            Gerencie fornecedores, produtos e registre cotações de forma prática e organizada.
-        </p>
+    <div class="container text-center mt-5 fade-in">
+        <!-- Cabeçalho -->
+        <div class="mb-5">
+            <h1 class="display-5 fw-bold text-primary">🧾 EasyQuotation</h1>
+            <p class="lead text-muted mt-3">
+                Simplifique o gerenciamento de <strong>fornecedores</strong>, <strong>produtos</strong> e <strong>cotações</strong> — tudo em um só lugar.
+            </p>
+        </div>
 
-        <!-- Abas de navegação -->
-        <ul class="nav nav-tabs justify-content-center" id="quotationTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="fornecedor-tab" data-bs-toggle="tab" href="#fornecedor" role="tab" aria-controls="fornecedor" aria-selected="true">
-                    🏢 Fornecedores
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="produto-tab" data-bs-toggle="tab" href="#produto" role="tab" aria-controls="produto" aria-selected="false">
-                    📦 Produtos
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="cotacao-tab" data-bs-toggle="tab" href="#cotacao" role="tab" aria-controls="cotacao" aria-selected="false">
-                    💰 Cotações
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content mt-4" id="quotationTabsContent">
-            <div class="tab-pane fade show active" id="fornecedor" role="tabpanel" aria-labelledby="fornecedor-tab">
-                <h4 class="fw-semibold mb-3">Gerencie seus fornecedores</h4>
-                <p>Cadastre novos fornecedores e visualize os já existentes.</p>
-                <a href='<%= ResolveUrl("~/Pages/Fornecedores.aspx") %>' class="btn btn-primary mt-2">Ir para Fornecedores</a>
-            </div>
-            <div class="tab-pane fade" id="produto" role="tabpanel" aria-labelledby="produto-tab">
-                <h4 class="fw-semibold mb-3">Controle seus produtos</h4>
-                <p>Cadastre e mantenha a lista de produtos atualizada.</p>
-                <a href='<%= ResolveUrl("~/Pages/Produtos.aspx") %>' class="btn btn-primary mt-2">Ir para Produtos</a>
-            </div>
-            <div class="tab-pane fade" id="cotacao" role="tabpanel" aria-labelledby="cotacao-tab">
-                <h4 class="fw-semibold mb-3">Registre e consulte cotações</h4>
-                <p>Insira novas cotações e visualize o menor preço por produto.</p>
-                <a href='<%= ResolveUrl("~/Pages/Cotacoes.aspx") %>' class="btn btn-primary mt-2">Ir para Cotações</a>
+        <!-- Seções em Cards -->
+        <div class="row justify-content-center g-4">
+            <!-- Fornecedores -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
+                    <div class="card-body p-4 d-flex flex-column align-items-center">
+                        <div class="icon-circle bg-primary text-white mb-3">
+                            🏢
+                        </div>
+                        <h4 class="fw-semibold mb-2 text-dark">Fornecedores</h4>
+                        <p class="text-muted small mb-4">
+                            Cadastre, visualize e gerencie seus fornecedores de forma simples.
+                        </p>
+                        <a href='<%= ResolveUrl("~/Pages/Fornecedores.aspx") %>' class="btn btn-outline-primary px-4 py-2 fw-semibold">
+                            Acessar
+                        </a>
+                    </div>
+                </div>
             </div>
 
+            <!-- Produtos -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
+                    <div class="card-body p-4 d-flex flex-column align-items-center">
+                        <div class="icon-circle bg-success text-white mb-3">
+                            📦
+                        </div>
+                        <h4 class="fw-semibold mb-2 text-dark">Produtos</h4>
+                        <p class="text-muted small mb-4">
+                            Mantenha o catálogo de produtos sempre atualizado e organizado.
+                        </p>
+                        <a href='<%= ResolveUrl("~/Pages/Produtos.aspx") %>' class="btn btn-outline-success px-4 py-2 fw-semibold">
+                            Acessar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cotações -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
+                    <div class="card-body p-4 d-flex flex-column align-items-center">
+                        <div class="icon-circle bg-warning text-white mb-3">
+                            💰
+                        </div>
+                        <h4 class="fw-semibold mb-2 text-dark">Cotações</h4>
+                        <p class="text-muted small mb-4">
+                            Registre preços, consulte o menor valor e otimize suas compras.
+                        </p>
+                        <a href='<%= ResolveUrl("~/Pages/Cotacoes.aspx") %>' class="btn btn-outline-warning px-4 py-2 fw-semibold text-dark">
+                            Acessar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="mt-5 text-muted small">
+            <hr class="w-50 mx-auto mb-3" />
+            <p>Desenvolvido por <strong>Gabriel Capetini</strong> — EasyQuotation © <%: DateTime.Now.Year %></p>
         </div>
     </div>
 
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Animação de entrada */
+        .fade-in {
+            animation: fadeIn 0.9s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilo dos cards */
+        .card-hover {
+            transition: all 0.25s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Ícones circulares */
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Botões */
+        .btn {
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .display-5 {
+            letter-spacing: 0.5px;
+        }
+
+        hr {
+            opacity: 0.2;
+        }
+    </style>
 </asp:Content>

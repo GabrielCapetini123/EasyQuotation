@@ -1,37 +1,31 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using EasyQuotation.Models.Data;
+using EasyQuotation.Models.Entities;
+using System;
 
 namespace EasyQuotation.DAL
 {
-    public class LogDAL
+    public class LogDAL : ILogDAL
     {
-        private readonly string _connectionString;
+        private readonly EasyQuotationDataContext _context;
 
         public LogDAL(string connectionString)
         {
-            _connectionString = connectionString;
+            _context = new EasyQuotationDataContext(connectionString);
         }
 
         public void RegistrarLog(string rotina, Exception ex)
         {
             try
             {
-                using (var conexao = new SqlConnection(_connectionString))
+                var log = new Log
                 {
-                    string query = @"
-                        INSERT INTO Log (Rotina, ExcecaoCapturada, Data)
-                        VALUES (@Rotina, @ExcecaoCapturada, @Data)";
+                    Rotina = rotina ?? "Rotina não informada",
+                    ExcecaoCapturada = ex?.ToString() ?? "Exceção não informada",
+                    Data = DateTime.Now
+                };
 
-                    using (var comandoSql = new SqlCommand(query, conexao))
-                    {
-                        comandoSql.Parameters.AddWithValue("@Rotina", rotina ?? "Rotina não informada");
-                        comandoSql.Parameters.AddWithValue("@ExcecaoCapturada", ex.ToString());
-                        comandoSql.Parameters.AddWithValue("@Data", DateTime.Now);
-
-                        conexao.Open();
-                        comandoSql.ExecuteNonQuery();
-                    }
-                }
+                _context.Logs.InsertOnSubmit(log);
+                _context.SubmitChanges();
             }
             catch
             {

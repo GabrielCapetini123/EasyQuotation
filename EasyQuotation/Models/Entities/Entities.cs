@@ -44,4 +44,20 @@ namespace EasyQuotation.Models.Entities
         [Column]
         public DateTime Data { get; set; }
     }
+
+    [Table(Name = "Log")]
+    public class Log
+    {
+        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+        public int Id { get; set; }
+
+        [Column]
+        public string Rotina { get; set; }
+
+        [Column]
+        public string ExcecaoCapturada { get; set; }
+
+        [Column]
+        public DateTime Data { get; set; }
+    }
 }

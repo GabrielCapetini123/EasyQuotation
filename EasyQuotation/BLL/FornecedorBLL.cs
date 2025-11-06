@@ -7,11 +7,11 @@ namespace EasyQuotation.BLL
 {
     public class FornecedorBLL
     {
-        private readonly FornecedorDAL _dal;
+        private readonly IFornecedorDAL _dal;
 
-        public FornecedorBLL(string connectionString)
+        public FornecedorBLL(IFornecedorDAL fornecedorDal)
         {
-            _dal = new FornecedorDAL(connectionString);
+            _dal = fornecedorDal ?? throw new ArgumentNullException(nameof(fornecedorDal));
         }
 
         public void SalvarFornecedor(Fornecedor fornecedor)
