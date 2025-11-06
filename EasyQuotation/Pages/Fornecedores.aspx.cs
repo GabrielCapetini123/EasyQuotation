@@ -1,5 +1,6 @@
-﻿using EasyQuotation.DAL;
-using EasyQuotation.Models;
+﻿using EasyQuotation.BLL;
+using EasyQuotation.DAL;
+using EasyQuotation.Models.Entities;
 using System;
 using System.Configuration;
 using System.Text.RegularExpressions;
@@ -10,11 +11,11 @@ namespace EasyQuotation.Pages
 {
     public partial class Fornecedores : System.Web.UI.Page
     {
-        private FornecedorDAL _dal;
+        private FornecedorBLL _bll;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _dal = new FornecedorDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
+            _bll = new FornecedorBLL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
 
             if (!IsPostBack)
                 CarregarGrid();
@@ -30,7 +31,7 @@ namespace EasyQuotation.Pages
 
                 try
                 {
-                    _dal.ExcluirFornecedor(idFornecedor);
+                    _bll.ExcluirFornecedor(idFornecedor);
                     CarregarGrid();
                     MostrarToast("Fornecedor excluído com sucesso!", "success");
                 }
@@ -38,7 +39,7 @@ namespace EasyQuotation.Pages
                 {
                     var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                     logDal.RegistrarLog("gvFornecedores_RowCommand - Fornecedores", ex);
-                    MostrarToast("Ocorreu um erro ao excluir o fornecedor. Tente novamente mais tarde.", "danger");
+                    MostrarToast(ex.Message, "danger");
                 }
             }
         }
@@ -52,7 +53,7 @@ namespace EasyQuotation.Pages
             {
                 try
                 {
-                    _dal.ExcluirFornecedor(idFornecedor);
+                    _bll.ExcluirFornecedor(idFornecedor);
                     CarregarGrid();
                     MostrarToast("Fornecedor excluído com sucesso!", "success");
                 }
@@ -60,7 +61,7 @@ namespace EasyQuotation.Pages
                 {
                     var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                     logDal.RegistrarLog("HandlePostBackEvent - Fornecedores", ex);
-                    MostrarToast("Ocorreu um erro ao excluir o fornecedor. Tente novamente mais tarde.", "danger");
+                    MostrarToast(ex.Message, "danger");
                 }
             }
         }
@@ -72,25 +73,13 @@ namespace EasyQuotation.Pages
                 string nome = txtNome.Text.Trim();
                 string cnpj = txtCNPJ.Text.Trim();
 
-                if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(cnpj))
-                {
-                    MostrarToast("Preencha todos os campos antes de salvar.", "danger");
-                    return;
-                }
-
-                if (!ValidarCNPJ(cnpj))
-                {
-                    MostrarToast("CNPJ inválido! Verifique e tente novamente.", "danger");
-                    return;
-                }
-
-                var fornecedor = new EasyQuotation.Models.Entities.Fornecedor
+                var fornecedor = new Fornecedor
                 {
                     Nome = nome,
                     CNPJ = cnpj
                 };
 
-                _dal.InserirFornecedor(fornecedor);
+                _bll.SalvarFornecedor(fornecedor);
                 LimparCampos();
                 CarregarGrid();
                 MostrarToast("Fornecedor salvo com sucesso!", "success");
@@ -99,13 +88,13 @@ namespace EasyQuotation.Pages
             {
                 var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                 logDal.RegistrarLog("btnSalvar_Click - Fornecedores", ex);
-                MostrarToast("Ocorreu um erro ao salvar o fornecedor. Tente novamente mais tarde.", "danger");
+                MostrarToast(ex.Message, "danger");
             }
         }
 
         private void CarregarGrid()
         {
-            gvFornecedores.DataSource = _dal.ListarFornecedores();
+            gvFornecedores.DataSource = _bll.ListarFornecedores();
             gvFornecedores.DataBind();
         }
 

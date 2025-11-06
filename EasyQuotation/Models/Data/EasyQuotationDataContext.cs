@@ -1,7 +1,7 @@
-﻿using EasyQuotation.Models.Entities; 
+﻿using EasyQuotation.Models.Entities;
 using System.Data.Linq;
 
-namespace EasyQuotation.DAL
+namespace EasyQuotation.Models.Data
 {
     public class EasyQuotationDataContext : DataContext
     {

@@ -1,4 +1,6 @@
-﻿using EasyQuotation.Models.Entities;
+﻿using EasyQuotation.Models.Data;
+using EasyQuotation.Models.Entities;
+using EasyQuotation.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,23 +101,5 @@ namespace EasyQuotation.DAL
                 throw new Exception("Erro ao consultar menor preço por produto.", ex);
             }
         }
-    }
-
-    public class CotacaoViewModel
-    {
-        public int Id { get; set; }
-        public DateTime Data { get; set; }
-        public decimal Preco { get; set; }
-        public int FornecedorId { get; set; }
-        public int ProdutoId { get; set; }
-        public string FornecedorNome { get; set; }
-        public string ProdutoNome { get; set; }
-    }
-
-    public class MenorPrecoViewModel
-    {
-        public string ProdutoNome { get; set; }
-        public string FornecedorNome { get; set; }
-        public decimal Preco { get; set; }
     }
 }

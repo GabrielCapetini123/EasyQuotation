@@ -1,22 +1,26 @@
-﻿using EasyQuotation.DAL;
-using EasyQuotation.Models;
+﻿using EasyQuotation.BLL;
+using EasyQuotation.DAL;
+using EasyQuotation.Models.Entities;
 using System;
 using System.Configuration;
+using System.Globalization;
 using System.Web.UI;
 
 namespace EasyQuotation.Pages
 {
     public partial class Cotacoes : System.Web.UI.Page
     {
-        private CotacaoDAL _cotacaoDal;
-        private FornecedorDAL _fornecedorDal;
-        private ProdutoDAL _produtoDal;
+        private CotacaoBLL _cotacaoBll;
+        private FornecedorBLL _fornecedorBll;
+        private ProdutoBLL _produtoBll;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _cotacaoDal = new CotacaoDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
-            _fornecedorDal = new FornecedorDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
-            _produtoDal = new ProdutoDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
+            string connectionString = ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString;
+
+            _cotacaoBll = new CotacaoBLL(connectionString);
+            _fornecedorBll = new FornecedorBLL(connectionString);
+            _produtoBll = new ProdutoBLL(connectionString);
 
             if (!IsPostBack)
             {
@@ -33,12 +37,12 @@ namespace EasyQuotation.Pages
 
         private void CarregarDropdowns()
         {
-            ddlFornecedor.DataSource = _fornecedorDal.ListarFornecedores();
+            ddlFornecedor.DataSource = _fornecedorBll.ListarFornecedores();
             ddlFornecedor.DataTextField = "Nome";
             ddlFornecedor.DataValueField = "Id";
             ddlFornecedor.DataBind();
 
-            ddlProduto.DataSource = _produtoDal.ListarProdutos();
+            ddlProduto.DataSource = _produtoBll.ListarProdutos();
             ddlProduto.DataTextField = "Nome";
             ddlProduto.DataValueField = "Id";
             ddlProduto.DataBind();
@@ -52,14 +56,13 @@ namespace EasyQuotation.Pages
                     .Replace("R$", "")
                     .Trim();
 
-                if (!decimal.TryParse(precoTexto, System.Globalization.NumberStyles.Any,
-                    new System.Globalization.CultureInfo("pt-BR"), out decimal preco))
+                if (!decimal.TryParse(precoTexto, NumberStyles.Any, new CultureInfo("pt-BR"), out decimal preco))
                 {
-                    MostrarToast("Valor inválido! Verifique o formato (ex: 4,34).", "danger");
+                    MostrarToast("Valor inválido! Use o formato 0,00.", "danger");
                     return;
                 }
 
-                var cotacao = new EasyQuotation.Models.Entities.Cotacao
+                var cotacao = new Cotacao
                 {
                     Data = DateTime.Now,
                     FornecedorId = int.Parse(ddlFornecedor.SelectedValue),
@@ -67,7 +70,7 @@ namespace EasyQuotation.Pages
                     Preco = preco
                 };
 
-                _cotacaoDal.InserirCotacao(cotacao);
+                _cotacaoBll.SalvarCotacao(cotacao);
                 txtPreco.Text = "";
                 CarregarGrid();
 
@@ -77,7 +80,7 @@ namespace EasyQuotation.Pages
             {
                 var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                 logDal.RegistrarLog("btnSalvar_Click - Cotacoes", ex);
-                MostrarToast("Ocorreu um erro ao salvar a cotação. Tente novamente mais tarde.", "danger");
+                MostrarToast(ex.Message, "danger");
             }
         }
 
@@ -90,7 +93,7 @@ namespace EasyQuotation.Pages
             {
                 try
                 {
-                    _cotacaoDal.ExcluirCotacao(idCotacao);
+                    _cotacaoBll.ExcluirCotacao(idCotacao);
                     CarregarGrid();
                     MostrarToast("Cotação excluída com sucesso ✅", "success");
                 }
@@ -98,7 +101,7 @@ namespace EasyQuotation.Pages
                 {
                     var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                     logDal.RegistrarLog("HandlePostBackEvent - Cotacoes", ex);
-                    MostrarToast("Ocorreu um erro ao excluir a cotação. Tente novamente mais tarde.", "danger");
+                    MostrarToast(ex.Message, "danger");
                 }
             }
         }
@@ -107,7 +110,7 @@ namespace EasyQuotation.Pages
         {
             try
             {
-                var lista = _cotacaoDal.ConsultarMenorPrecoPorProduto();
+                var lista = _cotacaoBll.ConsultarMenorPrecoPorProduto();
                 gvMenorPreco.DataSource = lista;
                 gvMenorPreco.DataBind();
 
@@ -120,14 +123,13 @@ namespace EasyQuotation.Pages
             {
                 var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                 logDal.RegistrarLog("btnConsultarMenorPreco_Click - Cotacoes", ex);
-                MostrarToast("Erro ao consultar o menor preço. Tente novamente mais tarde.", "danger");
+                MostrarToast(ex.Message, "danger");
             }
         }
 
-
         private void CarregarGrid()
         {
-            gvCotacoes.DataSource = _cotacaoDal.ListarCotacoes();
+            gvCotacoes.DataSource = _cotacaoBll.ListarCotacoes();
             gvCotacoes.DataBind();
         }
 

@@ -1,5 +1,6 @@
-﻿using EasyQuotation.DAL;
-using EasyQuotation.Models;
+﻿using EasyQuotation.BLL;
+using EasyQuotation.DAL;
+using EasyQuotation.Models.Entities;
 using System;
 using System.Configuration;
 using System.Web.UI;
@@ -8,11 +9,11 @@ namespace EasyQuotation.Pages
 {
     public partial class Produtos : System.Web.UI.Page
     {
-        private ProdutoDAL _dal;
+        private ProdutoBLL _bll;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _dal = new ProdutoDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
+            _bll = new ProdutoBLL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
 
             if (!IsPostBack)
                 CarregarGrid();
@@ -26,17 +27,12 @@ namespace EasyQuotation.Pages
             {
                 string nome = txtNome.Text.Trim();
 
-                if (string.IsNullOrEmpty(nome))
-                {
-                    MostrarToast("Preencha o nome do produto antes de salvar.", "danger");
-                    return;
-                }
-                var produto = new EasyQuotation.Models.Entities.Produto
+                var produto = new Produto
                 {
                     Nome = nome
                 };
 
-                _dal.InserirProduto(produto);
+                _bll.SalvarProduto(produto);
 
                 txtNome.Text = "";
                 CarregarGrid();
@@ -46,7 +42,7 @@ namespace EasyQuotation.Pages
             {
                 var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                 logDal.RegistrarLog("btnSalvar_Click - Produtos", ex);
-                MostrarToast($"Erro ao salvar produto: {ex.Message}", "danger");
+                MostrarToast(ex.Message, "danger");
             }
         }
 
@@ -59,7 +55,7 @@ namespace EasyQuotation.Pages
             {
                 try
                 {
-                    _dal.ExcluirProduto(idProduto);
+                    _bll.ExcluirProduto(idProduto);
                     CarregarGrid();
                     MostrarToast("Produto excluído com sucesso!", "success");
                 }
@@ -67,15 +63,22 @@ namespace EasyQuotation.Pages
                 {
                     var logDal = new LogDAL(ConfigurationManager.ConnectionStrings["EasyQuotationDB"].ConnectionString);
                     logDal.RegistrarLog("HandlePostBackEvent - Produtos", ex);
-                    MostrarToast($"Erro ao excluir produto: {ex.Message}", "danger");
+                    MostrarToast(ex.Message, "danger");
                 }
             }
         }
 
         private void CarregarGrid()
         {
-            gvProdutos.DataSource = _dal.ListarProdutos();
-            gvProdutos.DataBind();
+            try
+            {
+                gvProdutos.DataSource = _bll.ListarProdutos();
+                gvProdutos.DataBind();
+            }
+            catch (Exception ex)
+            {
+                MostrarToast($"Erro ao carregar produtos: {ex.Message}", "danger");
+            }
         }
 
         private void MostrarToast(string mensagem, string tipo)
@@ -106,6 +109,5 @@ namespace EasyQuotation.Pages
                 ViewState["ToastType"] = null;
             }
         }
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using EasyQuotation.Models.Entities;
+﻿using EasyQuotation.Models.Data;
+using EasyQuotation.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

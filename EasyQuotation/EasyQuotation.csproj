@@ -197,6 +197,9 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BLL\CotacaoBLL.cs" />
+    <Compile Include="BLL\FornecedorBLL.cs" />
+    <Compile Include="BLL\ProdutoBLL.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -205,7 +208,6 @@
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
     <Compile Include="DAL\CotacaoDAL.cs" />
-    <Compile Include="DAL\EasyQuotationDataContext.cs" />
     <Compile Include="DAL\FornecedorDAL.cs" />
     <Compile Include="DAL\LogDAL.cs" />
     <Compile Include="DAL\ProdutoDAL.cs" />
@@ -219,10 +221,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Cotacao.cs" />
+    <Compile Include="Models\Data\EasyQuotationDataContext.cs" />
     <Compile Include="Models\Entities\Entities.cs" />
-    <Compile Include="Models\Fornecedor.cs" />
-    <Compile Include="Models\Produto.cs" />
+    <Compile Include="Models\ViewModels\CotacaoViewModel.cs" />
+    <Compile Include="Models\ViewModels\MenorPrecoViewModel.cs" />
     <Compile Include="Pages\Cotacoes.aspx.cs">
       <DependentUpon>Cotacoes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
