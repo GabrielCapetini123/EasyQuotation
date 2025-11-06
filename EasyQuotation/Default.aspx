@@ -5,7 +5,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <div class="container text-center mt-5 fade-in">
-        <!-- Cabeçalho -->
         <div class="mb-5">
             <h1 class="display-5 fw-bold text-primary">🧾 EasyQuotation</h1>
             <p class="lead text-muted mt-3">
@@ -13,9 +12,7 @@
             </p>
         </div>
 
-        <!-- Seções em Cards -->
         <div class="row justify-content-center g-4">
-            <!-- Fornecedores -->
             <div class="col-md-4">
                 <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
                     <div class="card-body p-4 d-flex flex-column align-items-center">
@@ -33,7 +30,6 @@
                 </div>
             </div>
 
-            <!-- Produtos -->
             <div class="col-md-4">
                 <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
                     <div class="card-body p-4 d-flex flex-column align-items-center">
@@ -51,7 +47,6 @@
                 </div>
             </div>
 
-            <!-- Cotações -->
             <div class="col-md-4">
                 <div class="card border-0 shadow-lg rounded-4 h-100 card-hover">
                     <div class="card-body p-4 d-flex flex-column align-items-center">
@@ -70,7 +65,6 @@
             </div>
         </div>
 
-        <!-- Rodapé -->
         <div class="mt-5 text-muted small">
             <hr class="w-50 mx-auto mb-3" />
             <p>Desenvolvido por <strong>Gabriel Capetini</strong> — EasyQuotation © <%: DateTime.Now.Year %></p>
@@ -83,7 +77,6 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* Animação de entrada */
         .fade-in {
             animation: fadeIn 0.9s ease-in-out;
         }
@@ -93,7 +86,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Estilo dos cards */
         .card-hover {
             transition: all 0.25s ease-in-out;
         }
@@ -103,7 +95,6 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Ícones circulares */
         .icon-circle {
             width: 70px;
             height: 70px;
@@ -115,7 +106,6 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Botões */
         .btn {
             border-radius: 10px;
             transition: all 0.2s ease-in-out;
