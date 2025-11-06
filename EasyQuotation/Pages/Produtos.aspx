@@ -9,14 +9,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        /* ===== Layout base ===== */
         body {
             background: linear-gradient(135deg, #f1f8f3, #f8f9fa);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             color: #2d3436;
         }
 
-        /* ===== Botão Voltar ===== */
         .btn-voltar {
             position: fixed;
             top: 20px;
@@ -40,7 +38,6 @@
             box-shadow: 0 4px 10px rgba(25, 135, 84, 0.25);
         }
 
-        /* ===== Card principal ===== */
         .card {
             border: none;
             border-radius: 14px;
@@ -74,7 +71,6 @@
             box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.2);
         }
 
-        /* ===== Botões ===== */
         .btn-primary {
             background-color: #198754;
             border: none;
@@ -90,7 +86,6 @@
             box-shadow: 0 5px 15px rgba(25, 135, 84, 0.35);
         }
 
-        /* ===== Grid principal ===== */
         .grid-container {
             background: #ffffff;
             border-radius: 12px;
@@ -134,7 +129,6 @@
             background-color: #edf7f0;
         }
 
-        /* ===== Botão excluir ===== */
         .btn-trash {
             border: none;
             background: none;
@@ -148,7 +142,6 @@
             transform: scale(1.15);
         }
 
-        /* ===== Toast ===== */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -156,7 +149,6 @@
             z-index: 1060;
         }
 
-        /* ===== Modal ===== */
         .modal-content {
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -171,7 +163,6 @@
             color: #198754;
         }
 
-        /* ===== Animação de entrada ===== */
         .fade-in {
             animation: fadeIn 0.8s ease-in-out;
         }
@@ -196,7 +187,6 @@
     <form id="form1" runat="server" class="container my-5 fade-in">
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
-        <!-- Card principal -->
         <div class="card p-4 mx-auto mb-5" style="max-width: 550px;">
             <div class="card-body text-center">
                 <h2>📦 Cadastro de Produtos</h2>
@@ -216,7 +206,6 @@
 
         <hr />
 
-        <!-- Lista de produtos -->
         <div class="grid-container mt-4">
             <h4 class="mb-3">📋 Produtos Cadastrados</h4>
 
@@ -233,7 +222,6 @@
             </asp:GridView>
         </div>
 
-        <!-- Modal de exclusão -->
         <div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

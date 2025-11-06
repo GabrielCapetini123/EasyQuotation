@@ -15,7 +15,6 @@
             color: #2d3436;
         }
 
-        /* ===== Botão Voltar ===== */
         .btn-voltar {
             position: fixed;
             top: 20px;
@@ -39,7 +38,6 @@
             box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
         }
 
-        /* ===== Card Principal ===== */
         .card {
             border-radius: 14px;
             border: none;
@@ -71,7 +69,6 @@
             box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.2);
         }
 
-        /* ===== Botões ===== */
         .btn-primary {
             background-color: #ffc107;
             border: none;
@@ -113,7 +110,6 @@
             color: #212529;
         }
 
-        /* ===== Grid ===== */
         .grid-container {
             background: #ffffff;
             border-radius: 12px;
@@ -156,7 +152,6 @@
             background: #fff8e1;
         }
 
-        /* ===== Botão Lixeira ===== */
         .btn-trash {
             background: none;
             border: none;
@@ -171,7 +166,6 @@
             transform: scale(1.1);
         }
 
-        /* ===== Card Relatório ===== */
         .card-relatorio {
             border-radius: 12px;
             border: none;
@@ -185,7 +179,6 @@
             font-weight: 700;
         }
 
-        /* ===== Toast ===== */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -200,7 +193,6 @@
             margin: 3rem 0;
         }
 
-        /* ===== Modal ===== */
         .modal-header {
             background-color: #fff8e1;
         }
@@ -209,7 +201,6 @@
             color: #e0a800;
         }
 
-        /* ===== Animação ===== */
         .fade-in {
             animation: fadeIn 0.8s ease-in-out;
         }
