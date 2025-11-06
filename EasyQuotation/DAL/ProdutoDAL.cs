@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace EasyQuotation.DAL
 {
+
     public class ProdutoDAL : IProdutoDAL
     {
         private readonly EasyQuotationDataContext _context;
@@ -56,10 +57,9 @@ namespace EasyQuotation.DAL
             }
             catch (SqlException sqlEx)
             {
+                // Trata erro de violação de chave estrangeira (FK)
                 if (sqlEx.Number == 547 || sqlEx.Message.Contains("REFERENCE") || sqlEx.Message.Contains("FK_"))
-                {
                     throw new Exception("Não é possível excluir este produto, pois ele está vinculado a uma ou mais cotações.");
-                }
 
                 throw new Exception("Erro ao excluir produto no banco de dados.", sqlEx);
             }

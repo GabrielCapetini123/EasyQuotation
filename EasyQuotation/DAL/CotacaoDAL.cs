@@ -34,22 +34,22 @@ namespace EasyQuotation.DAL
         {
             try
             {
-                var query = from c in _context.Cotacoes
-                            join f in _context.Fornecedores on c.FornecedorId equals f.Id
-                            join p in _context.Produtos on c.ProdutoId equals p.Id
-                            orderby c.Id descending
-                            select new CotacaoViewModel
-                            {
-                                Id = c.Id,
-                                Data = c.Data,
-                                Preco = c.Preco,
-                                FornecedorId = f.Id,
-                                ProdutoId = p.Id,
-                                FornecedorNome = f.Nome,
-                                ProdutoNome = p.Nome
-                            };
+                var cotacoes = from c in _context.Cotacoes
+                               join f in _context.Fornecedores on c.FornecedorId equals f.Id
+                               join p in _context.Produtos on c.ProdutoId equals p.Id
+                               orderby c.Id descending
+                               select new CotacaoViewModel
+                               {
+                                   Id = c.Id,
+                                   Data = c.Data,
+                                   Preco = c.Preco,
+                                   FornecedorId = f.Id,
+                                   ProdutoId = p.Id,
+                                   FornecedorNome = f.Nome,
+                                   ProdutoNome = p.Nome
+                               };
 
-                return query.ToList();
+                return cotacoes.ToList();
             }
             catch (Exception ex)
             {
@@ -79,23 +79,23 @@ namespace EasyQuotation.DAL
         {
             try
             {
-                var query = from c in _context.Cotacoes
-                            group c by c.ProdutoId into g
-                            let menorPreco = g.Min(x => x.Preco)
-                            join p in _context.Produtos on g.Key equals p.Id
-                            select new MenorPrecoViewModel
-                            {
-                                ProdutoNome = p.Nome,
-                                Preco = menorPreco,
-                                FornecedorNome = (
-                                    from c2 in _context.Cotacoes
-                                    join f in _context.Fornecedores on c2.FornecedorId equals f.Id
-                                    where c2.ProdutoId == p.Id && c2.Preco == menorPreco
-                                    select f.Nome
-                                ).FirstOrDefault()
-                            };
+                var menorPrecoPorProduto = from c in _context.Cotacoes
+                                           group c by c.ProdutoId into grupo
+                                           let menorPreco = grupo.Min(x => x.Preco)
+                                           join p in _context.Produtos on grupo.Key equals p.Id
+                                           select new MenorPrecoViewModel
+                                           {
+                                               ProdutoNome = p.Nome,
+                                               Preco = menorPreco,
+                                               FornecedorNome = (
+                                                   from c2 in _context.Cotacoes
+                                                   join f in _context.Fornecedores on c2.FornecedorId equals f.Id
+                                                   where c2.ProdutoId == p.Id && c2.Preco == menorPreco
+                                                   select f.Nome
+                                               ).FirstOrDefault()
+                                           };
 
-                return query.OrderBy(x => x.ProdutoNome).ToList();
+                return menorPrecoPorProduto.OrderBy(x => x.ProdutoNome).ToList();
             }
             catch (Exception ex)
             {

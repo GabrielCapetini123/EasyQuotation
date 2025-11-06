@@ -2,9 +2,11 @@
 using EasyQuotation.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace EasyQuotation.BLL
 {
+
     public class FornecedorBLL
     {
         private readonly IFornecedorDAL _dal;
@@ -16,6 +18,9 @@ namespace EasyQuotation.BLL
 
         public void SalvarFornecedor(Fornecedor fornecedor)
         {
+            if (fornecedor == null)
+                throw new Exception("O fornecedor não pode ser nulo.");
+
             if (string.IsNullOrWhiteSpace(fornecedor.Nome))
                 throw new Exception("O nome do fornecedor é obrigatório.");
 
@@ -35,13 +40,21 @@ namespace EasyQuotation.BLL
 
         public void ExcluirFornecedor(int id)
         {
+            if (id <= 0)
+                throw new Exception("ID do fornecedor inválido.");
+
             _dal.ExcluirFornecedor(id);
         }
 
         private bool ValidarCNPJ(string cnpj)
         {
-            cnpj = System.Text.RegularExpressions.Regex.Replace(cnpj, "[^0-9]", "");
-            if (cnpj.Length != 14) return false;
+            cnpj = Regex.Replace(cnpj ?? "", "[^0-9]", "");
+
+            if (cnpj.Length != 14)
+                return false;
+
+            if (new string(cnpj[0], cnpj.Length) == cnpj)
+                return false;
 
             int[] multiplicador1 = { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };

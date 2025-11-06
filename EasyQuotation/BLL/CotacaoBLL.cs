@@ -9,6 +9,7 @@ namespace EasyQuotation.BLL
     public class CotacaoBLL
     {
         private readonly ICotacaoDAL _dal;
+
         public CotacaoBLL(ICotacaoDAL cotacaoDal)
         {
             _dal = cotacaoDal ?? throw new ArgumentNullException(nameof(cotacaoDal));
@@ -16,8 +17,17 @@ namespace EasyQuotation.BLL
 
         public void SalvarCotacao(Cotacao cotacao)
         {
+            if (cotacao == null)
+                throw new Exception("A cotação não pode ser nula.");
+
             if (cotacao.Preco <= 0)
-                throw new Exception("O preço deve ser maior que zero.");
+                throw new Exception("O preço da cotação deve ser maior que zero.");
+
+            if (cotacao.FornecedorId <= 0)
+                throw new Exception("É necessário informar um fornecedor válido.");
+
+            if (cotacao.ProdutoId <= 0)
+                throw new Exception("É necessário informar um produto válido.");
 
             _dal.InserirCotacao(cotacao);
         }
@@ -34,6 +44,9 @@ namespace EasyQuotation.BLL
 
         public void ExcluirCotacao(int id)
         {
+            if (id <= 0)
+                throw new Exception("O ID da cotação é inválido.");
+
             _dal.ExcluirCotacao(id);
         }
     }

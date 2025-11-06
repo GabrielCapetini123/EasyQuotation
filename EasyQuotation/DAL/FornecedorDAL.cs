@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace EasyQuotation.DAL
 {
+
     public class FornecedorDAL : IFornecedorDAL
     {
         private readonly EasyQuotationDataContext _context;
@@ -48,6 +49,7 @@ namespace EasyQuotation.DAL
             try
             {
                 var fornecedor = _context.Fornecedores.FirstOrDefault(f => f.Id == id);
+
                 if (fornecedor == null)
                     throw new Exception("Fornecedor não encontrado.");
 
@@ -57,9 +59,7 @@ namespace EasyQuotation.DAL
             catch (SqlException sqlEx)
             {
                 if (sqlEx.Number == 547 || sqlEx.Message.Contains("REFERENCE") || sqlEx.Message.Contains("FK_"))
-                {
                     throw new Exception("Não é possível excluir este fornecedor, pois ele está vinculado a uma ou mais cotações.");
-                }
 
                 throw new Exception("Erro ao excluir fornecedor no banco de dados.", sqlEx);
             }
