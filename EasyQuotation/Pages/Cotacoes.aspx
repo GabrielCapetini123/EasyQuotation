@@ -213,7 +213,7 @@
 </head>
 
 <body>
-    <a href="../Default.aspx" class="btn-voltar">⬅️ Voltar</a>
+<a href="~/Pages/Default.aspx" runat="server" class="btn-voltar">⬅️ Voltar</a>
 
     <form id="form1" runat="server" class="container my-5 fade-in">
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
