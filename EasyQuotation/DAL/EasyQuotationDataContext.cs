@@ -1,0 +1,17 @@
+﻿using EasyQuotation.Models.Entities; 
+using System.Data.Linq;
+
+namespace EasyQuotation.DAL
+{
+    public class EasyQuotationDataContext : DataContext
+    {
+        public EasyQuotationDataContext(string connectionString)
+            : base(connectionString)
+        {
+        }
+
+        public Table<Fornecedor> Fornecedores => GetTable<Fornecedor>();
+        public Table<Produto> Produtos => GetTable<Produto>();
+        public Table<Cotacao> Cotacoes => GetTable<Cotacao>();
+    }
+}
